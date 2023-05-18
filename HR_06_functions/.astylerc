@@ -1,0 +1,18 @@
+# For full docs:
+# http://astyle.sourceforge.net/astyle.html
+
+--style = allman
+
+# Indent with 4 spaces, convert tabs to spaces
+--indent = spaces = 4
+--convert - tabs
+
+# Pointer alignment
+--align - pointer = type
+--align - reference = type
+
+# Insert space padding around operators.
+--pad - oper
+
+# Do not retain a backup of the original file. The original file is purged after it is formatted.
+--suffix = none
