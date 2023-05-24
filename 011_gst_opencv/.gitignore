@@ -1,0 +1,4 @@
+.vs
+build
+*.c.orig
+.cache
