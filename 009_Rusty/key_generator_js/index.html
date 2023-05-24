@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rusty License</title>
+</head>
+
+<body>
+
+    <form>
+        <label for="name">License name (email):</label>
+        <input type="text" id="name" name="name" value="name@example.com" oninput="showLicense()"><br><br>
+        <label for="quantity">Quantity:</label>
+        <input type="text" id="quantity" name="quantity" value="10" oninput="showLicense()"><br><br>
+        <!--button onclick="showLicense()">Count License</button-->
+    </form>
+
+    <code id="license">
+    </code>
+
+    <script type="text/javascript" src="md5.js"></script>
+
+    <script type="text/javascript">
+        function showLicense() {
+            var salt = "_Rusty_t*+tG6:g*!.5~KTGD3Ew69";
+            var name = document.getElementById('name').value;
+            var quantity = document.getElementById('quantity').value;
+            var message = "Name: " + name + "<br/>\n";
+            message += "Quantity: " + quantity + "<br/>\n";
+
+            name = name.trim().toLowerCase();
+
+            var quantity_int = parseInt(quantity, 10)
+
+            if (Number.isInteger(quantity_int)) {
+                if (quantity_int == 1) {
+                    var licenseInitialString = salt + name;
+                    license += "Key license for " + name + " is " + makeHexLicenceKeyBeautiful(md5(licenseInitialString)) + "\n";
+                    message += "Key license for " + name + " is " + makeHexLicenceKeyBeautiful(md5(licenseInitialString)) + " License initial string is " + licenseInitialString + "<br />\n";
+                } else {
+                    for (var i = 0; i < quantity_int; i++) {
+                        var licenseInitialString = salt + i + name;
+                        if (i == 0) {
+                            licenseInitialString = salt + name;
+                        }
+                        license += "Key license #" + (i + 1) + " for " + name + " is " + makeHexLicenceKeyBeautiful(md5(licenseInitialString)) + "\n";
+                        message += "Key license #" + (i + 1) + " for " + name + " is " + makeHexLicenceKeyBeautiful(md5(licenseInitialString)) + " License initial string is " + licenseInitialString + "<br />\n";
+                    }
+                }
+            }
+
+            document.getElementById("license").innerHTML = message;
+        }
+
+        function stringLength(str) {
+            return str.split("").length;
+        }
+
+        function makeHexLicenceKeyBeautiful(hexLicenseKey) {
+            var numberOfDigitsInKey = 20;
+            var sizeOfKeySlice = 4;
+            var stringLicenseKey = dumbChangeHexToDec(hexLicenseKey);
+
+            while (stringLength(stringLicenseKey) < numberOfDigitsInKey) {
+                stringLicenseKey = "0" + stringLicenseKey;
+            }
+
+            if (stringLength(stringLicenseKey) > numberOfDigitsInKey) {
+                stringLicenseKey = stringLicenseKey.substring(0, numberOfDigitsInKey);
+            }
+
+            for (var i = stringLength(stringLicenseKey) - 1; i > 0; --i) {
+                if (i % sizeOfKeySlice == 0) {
+                    stringLicenseKey = stringLicenseKey.slice(0, i) + "-" + stringLicenseKey.slice(i);
+                }
+            }
+            return stringLicenseKey;
+        }
+
+        function dumbChangeHexToDec(str) {
+            var str = str.toString();
+            str = str.replace(/a/g, "0");
+            str = str.replace(/b/g, "1");
+            str = str.replace(/c/g, "3");
+            str = str.replace(/d/g, "5");
+            str = str.replace(/e/g, "7");
+            str = str.replace(/f/g, "9");
+            return str;
+        }
+
+        function autorun() {
+            showLicense();
+        }
+        if (window.addEventListener) window.addEventListener("load", autorun, false);
+        else if (window.attachEvent) window.attachEvent("onload", autorun);
+        else window.onload = autorun;
+    </script>
+</body>
+
+</html>
+
+
+<!--
+var license = name + '_' + quantity;
+
+license;
+-->
+
+<!--
+[Window Title]
+This is an unregistered copy
+
+[Main Instruction]
+Hello! Thanks for trying out Sublime Text.
+
+This is an unregistered evaluation version, and although the trial is untimed, a license must be purchased for continued use.
+
+Would you like to purchase a license now?
+
+[Purchase] [Cancel]
+-->
